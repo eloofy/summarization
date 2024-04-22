@@ -7,8 +7,22 @@ authors = ["anatoly <t.vlasov23@mail.ru>"]
 [tool.poetry.dependencies]
 python = "^3.10"
 pre-commit = "^3.7.0"
+wemake-python-styleguide = "^0.18.0"
+torch = {version = "^2.0.1+cu118", source = "pytorch-gpu-src"}
+pydantic = "^2.6.4"
+black = "^24.3.0"
+clearml = "^1.14.4"
+omegaconf = "^2.3.0"
+lightning = {version = "2.1", extras = ["extra"]}
+pandas = "^2.2.2"
+transformers = "^4.40.0"
 
 [tool.poetry.dev-dependencies]
+
+[[tool.poetry.source]]
+name = "pytorch-gpu-src"
+url = "https://download.pytorch.org/whl/cu118"
+priority = "explicit"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
