@@ -35,3 +35,13 @@ class DataConfig(_BaseValidatedConfig):
     num_samples_val: int = 5265
     task_name: str = 'text_sums'
     pretrained_tokenizer: str = 'DeepPavlov/rubert-base-cased'
+
+
+class ModelConfig(_BaseValidatedConfig):
+    name_model: str = 'BERT'
+    pretrained_model: str = 'DeepPavlov/rubert-base-cased'
+    optimizer: SerializableOBj = SerializableOBj(
+        target_class='torch.optim.AdamW',
+        kwargs={'lr': 1e-4, 'weight_decay': 1e-1},
+    )
+    vocab_size: int = 119547

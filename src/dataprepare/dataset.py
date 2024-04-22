@@ -37,11 +37,18 @@ class TextSummarizationDataset(Dataset):
             return_token_type_ids=False,
             return_tensors='pt',
         )
+        sum_tokenized = self.tokenizer.encode_plus(
+            sum_text,
+            max_length=128,
+            padding='max_length',
+            truncation=True,
+            return_tensors='pt'
+        )
 
         return {
             'input_ids': text_tokenized.data['input_ids'].squeeze(0),
             'attention_mask': text_tokenized.data['attention_mask'].squeeze(0),
-            'summarization': sum_text,
+            'summarization': sum_tokenized,
         }
 
     def __len__(self) -> int:
