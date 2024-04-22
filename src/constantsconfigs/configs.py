@@ -1,5 +1,5 @@
 from pathlib import Path
-from typing import Any, Dict
+from typing import Any, Dict, Optional, List, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
@@ -45,3 +45,35 @@ class ModelConfig(_BaseValidatedConfig):
         kwargs={'lr': 1e-4, 'weight_decay': 1e-1},
     )
     vocab_size: int = 119547
+
+
+class TrainerConfig(_BaseValidatedConfig):
+    """
+    Trainer config
+    """
+
+    min_epochs: int = 20
+    max_epochs: int = 30
+    check_val_every_n_epoch: int = 1
+    log_every_n_steps: int = 1
+    gradient_clip_val: Optional[float] = 0.1
+    gradient_clip_algorithm: Optional[Literal['norm', 'value']] = 'norm'
+    deterministic: bool = False
+    fast_dev_run: bool = False
+    default_root_dir: Optional[Path] = None
+    detect_anomaly: bool = False
+    accelerator: str = 'gpu'
+    devices: List = [0]
+
+
+class ExperimentConfig(_BaseValidatedConfig):
+    """
+    Experiment config
+    """
+
+    project_name: str = 'BERTSummarization'
+    experiment_name: str = 'exp_main_pretrained_bert'
+    trainer_config: TrainerConfig = Field(default=TrainerConfig())
+    data_config: DataConfig = Field(default=DataConfig())
+    module_config: ModelConfig = Field(default=ModelConfig())
+
