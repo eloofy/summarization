@@ -10,8 +10,6 @@ from src.constantsconfigs.constants import DEFAULT_PROJECT_PATH
 from src.dataprepare.dataset import TextSummarizationDataset
 from src.dataprepare.load_data_jsonl2df import load_dataset
 
-DEFAULT_DATA_PATH = Path(DEFAULT_PROJECT_PATH / 'dataset')
-
 
 class TextSummarizationDatamodule(LightningDataModule):
     def __init__(
@@ -26,8 +24,8 @@ class TextSummarizationDatamodule(LightningDataModule):
         super().__init__()
         self.cfg = cfg
 
-        self.data_path_file_train = Path(DEFAULT_DATA_PATH / cfg.dataset_name_json_train)
-        self.data_path_file_val = Path(DEFAULT_DATA_PATH / cfg.dataset_name_json_val)
+        self.data_path_file_train = Path(DEFAULT_PROJECT_PATH / cfg.dataset_name_json_train)
+        self.data_path_file_val = Path(DEFAULT_PROJECT_PATH / cfg.dataset_name_json_val)
 
         self.tokenizer = AutoTokenizer.from_pretrained(cfg.pretrained_tokenizer)
 

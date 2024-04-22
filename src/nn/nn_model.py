@@ -5,14 +5,14 @@ import torch
 import torch.nn.functional as func
 from pytorch_lightning import LightningModule
 from torchmetrics import MeanMetric
-from transformers import BertConfig, BertModel
+from transformers import BertConfig, AutoModel
 
 from src.constantsconfigs.configs import ModelConfig
 from src.nn.schedulers import get_cosine_schedule_with_warmup
 from src.nn.serialization_module import load_object
 
 
-class BERTModelClassic(LightningModule):  # noqa: WPS214
+class BERTModelSummarization(LightningModule):  # noqa: WPS214
     """
     Vit model
     """
@@ -32,10 +32,10 @@ class BERTModelClassic(LightningModule):  # noqa: WPS214
         self._valid_loss = MeanMetric()
 
         self.config_pretrained_model = BertConfig(cfg.pretrained_model)
-        self.model = BertModel.from_pretrained(cfg.pretrained_model)
+        self.model = AutoModel.from_pretrained(cfg.pretrained_model)
 
         self.classifier = nn.Linear(
-            cfg.config_pretrained_model.hidden_size,
+            self.config_pretrained_model.hidden_size,
             cfg.vocab_size
         )
 
