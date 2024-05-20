@@ -15,7 +15,7 @@ from src.nn.serialization_module import load_object
 
 class Gpt2ModelSummarization(LightningModule):  # noqa: WPS214
     """
-    Vit model
+    Gpt2ModelSummarization model
     """
 
     def __init__(
@@ -42,10 +42,10 @@ class Gpt2ModelSummarization(LightningModule):  # noqa: WPS214
 
         self.save_hyperparameters()
 
-    def forward(self, batch: Dict[str, str]) -> torch.Tensor:
+    def forward(self, batch: Dict[str, torch.Tensor]) -> torch.Tensor:
         """
         Forward pass
-        :param batch: batch dict(see src.dataprepare.dataset)
+        :param batch: batch dict (see src.dataprepare.dataset)
         :return: results
         """
         return self.model(**batch)
@@ -62,7 +62,7 @@ class Gpt2ModelSummarization(LightningModule):  # noqa: WPS214
         logits = self(batch)
 
         loss = func.cross_entropy(
-            logits.logits[0][0],
+            logits.logits.view(-1, logits.logits.shape[-1]),
             batch["labels"].view(-1),
         )
         self._train_loss.update(loss.item())
@@ -96,14 +96,16 @@ class Gpt2ModelSummarization(LightningModule):  # noqa: WPS214
         :param batch_idx: batch idx
         :return: logits
         """
-        logits = self(batch)
-        loss = func.cross_entropy(
-            logits.logits[0][0],
-            batch["labels"].view(-1),
-        )
-        self._valid_loss.update(loss.item())
+        self.model.eval()
+        with torch.no_grad():
+            logits = self(batch)
+            loss = func.cross_entropy(
+                logits.logits.view(-1, logits.logits.shape[-1]),
+                batch["labels"].view(-1),
+            )
+            self._valid_loss.update(loss.item())
 
-        return loss
+            return loss
 
     def on_validation_epoch_end(self) -> None:
         """

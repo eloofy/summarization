@@ -20,6 +20,9 @@ class Seq2SeqEncoder(nn.Module):
         )
         self.output_embeddings = None
 
+        if cfg.freeze_layers["freeze_layers"]:
+            self.freeze_parameters()
+
     def __call__(
         self,
         **kwargs,
