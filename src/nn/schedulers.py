@@ -26,15 +26,16 @@ def _get_cosine_schedule_with_warmup_lr_lambda(
         max(1, num_training_steps - num_warmup_steps),
     )
     cos_res = math.cos(
-        math.pi * float(num_cycles) * 2.0 * progress,
+        math.pi * float(num_cycles) * 2.0 * progress,  # noqa: WPS432
     )
     return max(
-        0,
-        0.5 * (1.0 + cos_res),
+        [
+            0,
+            0.5 * (1.0 + cos_res),
+        ],
     )
 
 
-# Implementation from huggingface/transformers.
 def get_cosine_schedule_with_warmup(
     optimizer: Optimizer,
     num_warmup_steps: int,
