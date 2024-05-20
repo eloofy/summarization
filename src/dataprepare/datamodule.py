@@ -24,10 +24,15 @@ class TextSummarizationDatamodule(LightningDataModule):
         super().__init__()
         self.cfg = cfg
 
-        self.data_path_file_train = Path(DEFAULT_PROJECT_PATH / cfg.dataset_name_json_train)
-        self.data_path_file_val = Path(DEFAULT_PROJECT_PATH / cfg.dataset_name_json_val)
+        self.data_path_file_train = Path(
+            DEFAULT_PROJECT_PATH / cfg.dataset_name_json_train,
+        )
+        self.data_path_file_val = Path(
+            DEFAULT_PROJECT_PATH / cfg.dataset_name_json_val,
+        )
 
-        self.tokenizer = AutoTokenizer.from_pretrained(cfg.pretrained_tokenizer)
+        self.tokenizer_encoder = AutoTokenizer.from_pretrained(cfg.pretrained_tokenizer.name_pretrained_tokenizer)
+        self.tokenizer_decoder = self.load_tokenizer_decoder()
 
         self.save_hyperparameters(logger=False)
 
@@ -39,24 +44,26 @@ class TextSummarizationDatamodule(LightningDataModule):
         Setup data processing
 
         :param stage: stage of data loading
-        :return:
+        :return: None
         """
-        if stage == 'fit':
+        if stage == "fit":
             data_train_df = load_dataset(self.data_path_file_train)
             data_val_df = load_dataset(self.data_path_file_val)
 
             self.data_train = TextSummarizationDataset(
                 data_train_df,
-                tokenizer=self.tokenizer,
-                task=self.cfg.task_name,
+                tokenizer_encoder=self.tokenizer_encoder,
+                tokenizer_decoder=self.tokenizer_decoder,
+                cfg=self.cfg.pretrained_tokenizer,
             )
             self.data_val = TextSummarizationDataset(
                 data_val_df,
-                tokenizer=self.tokenizer,
-                task=self.cfg.task_name,
+                tokenizer_encoder=self.tokenizer_encoder,
+                tokenizer_decoder=self.tokenizer_decoder,
+                cfg=self.cfg.pretrained_tokenizer,
             )
 
-        elif stage == 'test':
+        elif stage == "test":
             return
 
     def train_dataloader(self):
@@ -90,3 +97,14 @@ class TextSummarizationDatamodule(LightningDataModule):
         :return: test dataloader
         """
         return DataLoader
+
+    def load_tokenizer_decoder(self):
+        """
+        Load tokenizer decoder with change pad to eos
+        :return:
+        """
+        tokenizer = AutoTokenizer.from_pretrained(self.cfg.pretrained_tokenizer.name_pretrained_tokenizer)
+        tokenizer.add_special_tokens(self.cfg.pretrained_tokenizer.special_tokens_add)
+        tokenizer.pad_token_id = tokenizer.eos_token_id
+
+        return tokenizer
