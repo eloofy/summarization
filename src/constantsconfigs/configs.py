@@ -3,6 +3,8 @@ from typing import Any, Dict, List, Literal, Optional
 
 from pydantic import BaseModel, ConfigDict, Field
 
+from src.constantsconfigs.constants import DEFAULT_PROJECT_PATH
+
 
 class _BaseValidatedConfig(BaseModel):
     """
@@ -36,15 +38,16 @@ class TokenizerConfig(_BaseValidatedConfig):
     :var special_tokens_add: special tokens
 
     """
-    name_pretrained_tokenizer: str = 'DeepPavlov/rubert-base-cased'
+
+    name_pretrained_tokenizer: str = "DeepPavlov/rubert-base-cased"
     encoder_max_length: int = 512
-    encoder_padding: str = 'max_length'
+    encoder_padding: str = "max_length"
     encoder_truncate: bool = True
     decoder_max_length: int = 128
-    decoder_padding: str = 'max_length'
+    decoder_padding: str = "max_length"
     decoder_truncate: bool = True
     decoder_add_special_tokens: bool = False
-    special_tokens_add: Dict = {'bos_token': '[BOS]', 'eos_token': '[EOS]'}
+    special_tokens_add: Dict = {"bos_token": "[BOS]", "eos_token": "[EOS]"}
 
 
 class EncoderConfig(_BaseValidatedConfig):
@@ -55,10 +58,11 @@ class EncoderConfig(_BaseValidatedConfig):
     :var freeze_layers: dict for freeze layers
 
     """
+
     name_encoder_pretrained_model: str = "DeepPavlov/rubert-base-cased"
     freeze_layers: Dict[str, Any] = {
-        'freeze_layers': False,
-        'layers': 5,
+        "freeze_layers": False,
+        "layers": 5,
     }
 
 
@@ -73,14 +77,15 @@ class DecoderConfig(_BaseValidatedConfig):
     :var name_base_decoder: name of model for decoder
     :var freeze_layers: dict for freeze layers
     """
+
     add_cross_attentions: bool = True
     vocab_size: int = 119549
     bos_token_id: int = 119547
     eos_token_id: int = 119548
     name_base_decoder: str = "gpt2"
     freeze_layers: Dict[str, Any] = {
-        'freeze_layers': False,
-        'layers': 5,
+        "freeze_layers": False,
+        "layers": 5,
     }
 
 
@@ -103,8 +108,10 @@ class DataConfig(_BaseValidatedConfig):
     batch_size: int = 64
     pin_memory: bool = True
     shuffle: bool = True
-    dataset_name_json_train: Path = Path("data/gazeta_train.jsonl")
-    dataset_name_json_val: Path = Path("data/gazeta_val.jsonl")
+    dataset_name_json_train: Path = DEFAULT_PROJECT_PATH / Path(
+        "data/gazeta_train.jsonl",
+    )
+    dataset_name_json_val: Path = DEFAULT_PROJECT_PATH / Path("data/gazeta_val.jsonl")
     encoder_model: EncoderConfig = Field(default=EncoderConfig())
     decoder_model: DecoderConfig = Field(default=DecoderConfig())
     num_samples_train: int = 52400
@@ -123,6 +130,7 @@ class ModelConfig(_BaseValidatedConfig):
     :var num_warmup_steps: number of warmup steps
     :var num_cycles: cycle
     """
+
     name_model_full: str = "gpt_2_encoder_pretrained"
     encoder: EncoderConfig = Field(default=EncoderConfig())
     decoder: DecoderConfig = Field(default=DecoderConfig())

@@ -36,7 +36,8 @@ class Gpt2ModelSummarization(LightningModule):  # noqa: WPS214
         self.model_decoder = Seq2SeqDecoder(self.cfg.decoder)
 
         self.model = EncoderDecoderModel(
-            encoder=self.model_encoder, decoder=self.model_decoder,
+            encoder=self.model_encoder,
+            decoder=self.model_decoder,
         )
 
         self.save_hyperparameters()
@@ -61,7 +62,8 @@ class Gpt2ModelSummarization(LightningModule):  # noqa: WPS214
         logits = self(batch)
 
         loss = func.cross_entropy(
-            logits.logits[0][0], batch["labels"].view(-1),
+            logits.logits[0][0],
+            batch["labels"].view(-1),
         )
         self._train_loss.update(loss.item())
 
@@ -96,7 +98,8 @@ class Gpt2ModelSummarization(LightningModule):  # noqa: WPS214
         """
         logits = self(batch)
         loss = func.cross_entropy(
-            logits.logits[0][0], batch["labels"].view(-1),
+            logits.logits[0][0],
+            batch["labels"].view(-1),
         )
         self._valid_loss.update(loss.item())
 

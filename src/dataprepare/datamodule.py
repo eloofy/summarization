@@ -1,4 +1,3 @@
-from pathlib import Path
 from typing import Optional
 
 from pytorch_lightning import LightningDataModule
@@ -6,7 +5,6 @@ from torch.utils.data import DataLoader
 from transformers import AutoTokenizer
 
 from src.constantsconfigs.configs import DataConfig
-from src.constantsconfigs.constants import DEFAULT_PROJECT_PATH
 from src.dataprepare.dataset import TextSummarizationDataset
 from src.dataprepare.load_data_jsonl2df import load_dataset
 
@@ -24,13 +22,6 @@ class TextSummarizationDatamodule(LightningDataModule):
         super().__init__()
         self.cfg = cfg
 
-        self.data_path_file_train = Path(
-            DEFAULT_PROJECT_PATH / cfg.dataset_name_json_train,
-        )
-        self.data_path_file_val = Path(
-            DEFAULT_PROJECT_PATH / cfg.dataset_name_json_val,
-        )
-
         self.tokenizer_encoder = AutoTokenizer.from_pretrained(cfg.pretrained_tokenizer.name_pretrained_tokenizer)
         self.tokenizer_decoder = self.load_tokenizer_decoder()
 
@@ -47,8 +38,8 @@ class TextSummarizationDatamodule(LightningDataModule):
         :return: None
         """
         if stage == "fit":
-            data_train_df = load_dataset(self.data_path_file_train)
-            data_val_df = load_dataset(self.data_path_file_val)
+            data_train_df = load_dataset(self.cfg.dataset_name_json_train)
+            data_val_df = load_dataset(self.cfg.dataset_name_json_val)
 
             self.data_train = TextSummarizationDataset(
                 data_train_df,

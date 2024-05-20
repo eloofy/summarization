@@ -3,9 +3,10 @@ from typing import Tuple, Union
 import torch
 import torch.nn as nn
 from transformers import BertConfig, BertModel
-from transformers.modeling_outputs import BaseModelOutputWithPoolingAndCrossAttentions
 
 from src.constantsconfigs.configs import EncoderConfig
+
+from transformers.modeling_outputs import BaseModelOutputWithPoolingAndCrossAttentions  # isort: skip
 
 
 class Seq2SeqEncoder(nn.Module):
@@ -20,7 +21,8 @@ class Seq2SeqEncoder(nn.Module):
         self.output_embeddings = None
 
     def __call__(
-        self, **kwargs,
+        self,
+        **kwargs,
     ) -> Union[Tuple, BaseModelOutputWithPoolingAndCrossAttentions]:
         output_embeddings = self.forward(
             input_ids=kwargs["input_ids"],
@@ -47,7 +49,10 @@ class Seq2SeqEncoder(nn.Module):
             param_weight.requires_grad = True
 
     def forward(
-        self, input_ids, attention_mask, **kwargs,
+        self,
+        input_ids,
+        attention_mask,
+        **kwargs,
     ) -> Union[Tuple, BaseModelOutputWithPoolingAndCrossAttentions]:
         """
 
