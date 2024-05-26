@@ -105,7 +105,7 @@ class DataConfig(_BaseValidatedConfig):
     :var pretrained_tokenizer: base pretrained tokenizer
     """
 
-    batch_size: int = 64
+    batch_size: int = 32
     pin_memory: bool = True
     shuffle: bool = True
     dataset_name_json_train: Path = DEFAULT_PROJECT_PATH / Path(
@@ -171,6 +171,19 @@ class TrainerConfig(_BaseValidatedConfig):
     devices: List[int] = [0]
 
 
+class DebugSamplesConfig(_BaseValidatedConfig):
+    """
+    Debug samples config
+
+    :var each_step: each step save txt text generate
+    :var data_test_path: path to test data jsonl
+
+    """
+
+    each_step: int = 80
+    data_test_path: Path = DEFAULT_PROJECT_PATH / Path("data/gazeta_test.jsonl")
+
+
 class ExperimentConfig(_BaseValidatedConfig):
     """
     Experiment config
@@ -187,3 +200,4 @@ class ExperimentConfig(_BaseValidatedConfig):
     trainer_config: TrainerConfig = Field(default=TrainerConfig())
     data_config: DataConfig = Field(default=DataConfig())
     config_full_model: ModelConfig = Field(default=ModelConfig())
+    debug_samples_config: DebugSamplesConfig = Field(default=DebugSamplesConfig())
