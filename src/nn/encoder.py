@@ -1,9 +1,9 @@
 import torch
-from src.constantsconfigs.constants import DEFAULT_PROJECT_PATH
+from constantsconfigs.constants import DEFAULT_PROJECT_PATH
 from typing import Tuple, Union
 import torch.nn as nn
 from transformers import BertConfig, BertModel
-from src.constantsconfigs.configs import EncoderConfig
+from constantsconfigs.configs import EncoderConfig
 from transformers.modeling_outputs import (
     BaseModelOutputWithPoolingAndCrossAttentions,
 )  # isort: skip

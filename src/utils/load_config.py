@@ -1,7 +1,7 @@
 import yaml
 from typing import Union
 from pathlib import Path
-from src.constantsconfigs.configs import ExperimentConfig
+from constantsconfigs.configs import ExperimentConfig
 
 
 def load_config(config_path: Union[str, Path]) -> ExperimentConfig:
