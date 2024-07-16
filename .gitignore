@@ -162,3 +162,10 @@ cython_debug/
 /data/gazeta_test.jsonl
 /data/gazeta_train.jsonl
 /data/gazeta_val.jsonl
+/configs/BERT_GPT3_FULL_PRETRAINED/
+/configs/BERT_GPT2_BASE/
+/configs/GPT_PRETRAINED/
+/src/tokenizer_pretrained/gpt3-sber/
+/src/tokenizer_pretrained/rubert-pavlov/
+/src/weights_pretrained/gpt3-sber.pth
+/src/weights_pretrained/rubert-pavlov.pth
