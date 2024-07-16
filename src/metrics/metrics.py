@@ -1,5 +1,5 @@
-from src.base.base_metric import BaseMetric
-from src.metrics.custom import RougeCustom, BERTCustom
+from base.base_metric import BaseMetric
+from metrics.custom import RougeCustom, BERTCustom
 from typing import Any
 
 

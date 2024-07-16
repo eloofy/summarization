@@ -2,8 +2,8 @@ from typing import Any, Dict, Union
 import torch
 from pytorch_lightning import LightningModule
 from torchmetrics import MeanMetric
-from src.utils.serialization_module import load_object
-from src.utils.schedulers import get_warmup_scheduler
+from utils.serialization_module import load_object
+from utils.schedulers import get_warmup_scheduler
 
 
 class ModelSummarizationBase(LightningModule):  # noqa: WPS214

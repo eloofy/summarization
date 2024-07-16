@@ -2,14 +2,14 @@ from typing import Dict, Union
 
 import torch
 
-from src.base.base_nn import ModelSummarizationBase
+from base.base_nn import ModelSummarizationBase
 from torchmetrics import MeanMetric
 from transformers import EncoderDecoderModel, GPT2Tokenizer, BertTokenizer
 
-from src.constantsconfigs.configs import ModelConfig, Metrics
-from src.nn.decoder import Seq2SeqDecoder
-from src.nn.encoder import Seq2SeqEncoder
-from src.metrics.get_metrics import get_metrics
+from constantsconfigs.configs import ModelConfig, Metrics
+from nn.decoder import Seq2SeqDecoder
+from nn.encoder import Seq2SeqEncoder
+from metrics.get_metrics import get_metrics
 
 
 class ModelSummarizationEncDec(ModelSummarizationBase):  # noqa: WPS214

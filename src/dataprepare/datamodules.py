@@ -1,11 +1,11 @@
 from typing import Optional, Callable
 from transformers import AutoTokenizer
 
-from src.constantsconfigs.configs import DataConfig
-from src.dataprepare.datasets import TextSummarizationDatasetEncoderDecoder
+from constantsconfigs.configs import DataConfig
+from dataprepare.datasets import TextSummarizationDatasetEncoderDecoder
 
-from src.base.base_datamodule import TextSummarizationDatamodule
-from src.constantsconfigs.constants import DEFAULT_PROJECT_PATH
+from base.base_datamodule import TextSummarizationDatamodule
+from constantsconfigs.constants import DEFAULT_PROJECT_PATH
 
 
 class TextSummarizationDatamoduleEncDec(TextSummarizationDatamodule):

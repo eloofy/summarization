@@ -1,6 +1,6 @@
 from typing import List, Any
 from torchmetrics import MetricCollection
-from src.metrics.metrics import BERTMetric, ROUGEMetric
+from metrics.metrics import BERTMetric, ROUGEMetric
 
 
 def get_metrics(rouge_types: List[str], bert: bool, **kwargs: Any) -> MetricCollection:

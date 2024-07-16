@@ -5,7 +5,7 @@ import pandas as pd
 from torch.utils.data import Dataset
 from transformers import BertTokenizer, GPT2Tokenizer
 
-from src.constantsconfigs.configs import EncoderTokenizer, DecoderTokenizer
+from constantsconfigs.configs import EncoderTokenizer, DecoderTokenizer
 
 
 class TextSummarizationDatasetEncoderDecoder(Dataset):

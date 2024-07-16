@@ -7,11 +7,11 @@ import argparse
 from pytorch_lightning.callbacks import ModelCheckpoint
 from clearml import Task
 
-from src.constantsconfigs.configs import ExperimentConfig
-from src.constantsconfigs.constants import DEFAULT_PROJECT_PATH
+from constantsconfigs.configs import ExperimentConfig
+from constantsconfigs.constants import DEFAULT_PROJECT_PATH
 from utils.model import SummarizationModel
 from pathlib import Path
-from src.utils.load_config import load_config
+from utils.load_config import load_config
 
 warnings.simplefilter(action="ignore", category=FutureWarning)  # bag
 warnings.simplefilter(
@@ -67,7 +67,7 @@ if __name__ == "__main__":
     parser.add_argument(
         "--path_exp_cfg",
         default=DEFAULT_PROJECT_PATH
-        / Path("../configs/GPT_PRETRAINED/exp_config.yaml"),
+        / Path("configs/GPT_PRETRAINED/exp_config.yaml"),
         type=Path,
     )
     parser.add_argument("--mlflow_cfg_file", default=None, type=Path)

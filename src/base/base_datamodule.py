@@ -3,15 +3,15 @@ from typing import Optional, Union, Callable
 
 from pytorch_lightning import LightningDataModule
 from torch.utils.data import DataLoader
-from src.constantsconfigs.configs import DataConfig
+from constantsconfigs.configs import DataConfig
 
 from transformers import GPT2Tokenizer, BertTokenizer
 
-from src.dataprepare.datasets import (
+from dataprepare.datasets import (
     TextSummarizationDatasetEncoderDecoder,
     TextSummarizationDatasetGPT,
 )
-from src.utils.load_data_jsonl2df import load_dataset
+from utils.load_data_jsonl2df import load_dataset
 import pandas as pd
 
 logger = logging.getLogger(__name__)
