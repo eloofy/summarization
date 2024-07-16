@@ -1,6 +1,6 @@
 import pandas as pd
 from pathlib import Path
-from src.constantsconfigs.constants import NEED_COLUMNS, DEFAULT_PROJECT_PATH
+from constantsconfigs.constants import NEED_COLUMNS, DEFAULT_PROJECT_PATH
 
 
 def load_dataset(path_dataset_jsonl: Path) -> pd.DataFrame:
