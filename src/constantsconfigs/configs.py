@@ -117,17 +117,18 @@ class DataConfig(_BaseValidatedConfig):
     :var num_workers: number of workers
     """
 
-    batch_size: int
-    pin_memory: bool
-    shuffle: bool
-    dataset_name_json_train_first: Path
-    dataset_name_json_train_second: Path
-    dataset_test_val: Path
-    encoder_tokenizer: Optional[EncoderTokenizer]
-    decoder_tokenizer: Optional[DecoderTokenizer]
-    num_samples_train: int
-    num_samples_val: int
-    num_workers: int
+    batch_size: int = 64
+    pin_memory: bool = True
+    shuffle: bool = True
+    dataset_name_json_train: Path = DEFAULT_PROJECT_PATH / Path(
+        "data/gazeta_train.jsonl",
+    )
+    dataset_name_json_val: Path = DEFAULT_PROJECT_PATH / Path("data/gazeta_val.jsonl")
+    encoder_model: EncoderConfig = Field(default=EncoderConfig())
+    decoder_model: DecoderConfig = Field(default=DecoderConfig())
+    num_samples_train: int = 52400
+    num_samples_val: int = 5265
+    pretrained_tokenizer: TokenizerConfig = Field(default=TokenizerConfig())
 
 
 class ModelConfig(_BaseValidatedConfig):
@@ -225,29 +226,8 @@ class ExperimentConfig(_BaseValidatedConfig):
     :var debug_samples_config: model config obj
     """
 
-    project_name: str
-    experiment_name: str
-    task: str
-    trainer_config: TrainerConfig
-    data_config: DataConfig
-    pr_model_config: ModelConfig
-    debug_samples_config: DebugSamplesConfig
-    metrics: Metrics
-
-    @model_validator(mode="before")
-    def load_sub_configs(cls, values_cfg_input):  # noqa: WPS210
-        base_path = values_cfg_input.get("_base_path", Path("."))
-        values_cfg_input.pop("_base_path")
-        for field, path in values_cfg_input.items():
-            if isinstance(path, str) and path.endswith(".yaml"):
-                full_path = base_path / path
-                with open(full_path, "r") as f:
-                    values_cfg_input[field] = yaml.safe_load(f)
-            elif isinstance(path, list):
-                models = []
-                for model_path in path:
-                    full_path = base_path / model_path
-                    with open(full_path, "r") as file_full_path:
-                        models.append(yaml.safe_load(file_full_path))  # noqa: WPS220
-                values_cfg_input[field] = models
-        return values_cfg_input
+    project_name: str = "BERTSummarization"
+    experiment_name: str = "exp_main_pretrained_bert"
+    trainer_config: TrainerConfig = Field(default=TrainerConfig())
+    data_config: DataConfig = Field(default=DataConfig())
+    config_full_model: ModelConfig = Field(default=ModelConfig())
