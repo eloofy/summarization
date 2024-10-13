@@ -5,8 +5,8 @@ import torch
 from transformers import GPT2Config, GPT2LMHeadModel, GPT2Tokenizer, AutoConfig
 from transformers.modeling_outputs import CausalLMOutputWithCrossAttentions
 
-from constantsconfigs.configs import DecoderConfig
-from constantsconfigs.constants import DEFAULT_PROJECT_PATH
+from src.constantsconfigs.configs import DecoderConfig
+from src.constantsconfigs.constants import DEFAULT_PROJECT_PATH
 
 
 class Seq2SeqDecoder(GPT2LMHeadModel):
