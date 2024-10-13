@@ -34,6 +34,12 @@ def train(cfg: ExperimentConfig, mlflow_cfg_file: Path) -> None:  # noqa: WPS210
         os.environ["CLEARML_CONFIG_FILE"] = str(mlflow_cfg_file)
         Task.init(project_name=cfg.project_name, task_name=cfg.experiment_name)
 
+    # debug_samples_module = DebugSamples(
+    #     cfg.debug_samples_config,
+    #     datamodule.tokenizer_encoder,
+    #     cfg.data_config.pretrained_tokenizer,
+    # )
+
     sums_map = SummarizationModel().task_map[cfg.task]
     datamodule = sums_map["datamodule"](
         cfg=cfg.data_config,
